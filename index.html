@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Свояк — помощник ведущего</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <noscript>Для работы приложения нужен включённый JavaScript.</noscript>
+
+  <header id="topbar" class="hidden">
+    <div id="scorebar" class="scorebar"></div>
+    <div class="topbar-actions">
+      <button id="btn-undo" class="btn btn-ghost" type="button" title="Отменить последнее действие">↩ Отменить</button>
+      <button id="btn-new-game" class="btn btn-ghost btn-danger" type="button" title="Сбросить игру и вернуться к настройке">Новая игра</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="screen-setup" class="screen"></section>
+    <section id="screen-editor" class="screen hidden"></section>
+    <section id="screen-board" class="screen hidden"></section>
+    <section id="screen-question" class="screen hidden"></section>
+    <section id="screen-final" class="screen hidden"></section>
+    <section id="screen-results" class="screen hidden"></section>
+  </main>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

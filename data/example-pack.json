@@ -1,0 +1,120 @@
+{
+  "rounds": [
+    {
+      "categories": [
+        {
+          "name": "Столицы мира",
+          "questions": [
+            { "value": 100, "text": "Столица Франции?", "answer": "Париж", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Столица Японии?", "answer": "Токио", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Столица Австралии?", "answer": "Канберра", "modifier": "invert", "secret": false }
+          ]
+        },
+        {
+          "name": "Животные",
+          "questions": [
+            { "value": 100, "text": "Самое быстрое наземное животное?", "answer": "Гепард", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Самое большое животное на Земле?", "answer": "Синий кит", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Сколько ног у паука?", "answer": "Восемь", "modifier": "approx", "secret": false }
+          ]
+        },
+        {
+          "name": "Космос",
+          "questions": [
+            { "value": 100, "text": "Первая женщина-космонавт?", "answer": "Валентина Терешкова", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Ближайшая к Солнцу планета?", "answer": "Меркурий", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Единственный естественный спутник Земли?", "answer": "Луна", "modifier": "none", "secret": true }
+          ]
+        },
+        {
+          "name": "Еда",
+          "questions": [
+            { "value": 100, "text": "Итальянская лепёшка с сыром и томатами?", "answer": "Пицца", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Японское блюдо из риса и сырой рыбы?", "answer": "Суши", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Сколько граммов сахара в чайной ложке (примерно)?", "answer": "Около 5–7 граммов", "modifier": "ask", "secret": false }
+          ]
+        }
+      ]
+    },
+    {
+      "categories": [
+        {
+          "name": "Кино",
+          "questions": [
+            { "value": 200, "text": "Кто снял фильм «Титаник»?", "answer": "Джеймс Кэмерон", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Кто сыграл Данилу Багрова в фильме «Брат»?", "answer": "Сергей Бодров", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Первый полнометражный мультфильм Уолта Диснея?", "answer": "«Белоснежка и семь гномов»", "modifier": "invert", "secret": false }
+          ]
+        },
+        {
+          "name": "Музыка",
+          "questions": [
+            { "value": 200, "text": "«Ливерпульская четвёрка» — это…", "answer": "The Beatles", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Кто написал музыку к балету «Лебединое озеро»?", "answer": "Пётр Чайковский", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Сколько струн у классической гитары?", "answer": "Шесть", "modifier": "none", "secret": false }
+          ]
+        },
+        {
+          "name": "Спорт",
+          "questions": [
+            { "value": 200, "text": "Сколько игроков одной команды находится на футбольном поле?", "answer": "Одиннадцать", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Раз в сколько лет проходят летние Олимпийские игры?", "answer": "Раз в четыре года", "modifier": "approx", "secret": false },
+            { "value": 600, "text": "Мировой рекорд в беге на 100 метров?", "answer": "9,58 секунды (Усэйн Болт)", "modifier": "ask", "secret": false }
+          ]
+        },
+        {
+          "name": "Слова",
+          "questions": [
+            { "value": 200, "text": "Сколько букв в русском алфавите?", "answer": "Тридцать три", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Как называется слово, которое одинаково читается в обе стороны?", "answer": "Палиндром", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Синоним слова «алфавит» из шести букв?", "answer": "Азбука", "modifier": "none", "secret": true }
+          ]
+        }
+      ]
+    },
+    {
+      "categories": [
+        {
+          "name": "История",
+          "questions": [
+            { "value": 300, "text": "Первый президент США?", "answer": "Джордж Вашингтон", "modifier": "none", "secret": false },
+            { "value": 600, "text": "В каком году Юрий Гагарин полетел в космос?", "answer": "В 1961 году", "modifier": "none", "secret": false },
+            { "value": 900, "text": "Кто был первым императором России?", "answer": "Пётр I", "modifier": "invert", "secret": false }
+          ]
+        },
+        {
+          "name": "Наука",
+          "questions": [
+            { "value": 300, "text": "Химический символ золота?", "answer": "Au", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Сколько цветов в радуге?", "answer": "Семь", "modifier": "none", "secret": false },
+            { "value": 900, "text": "Какой закон Ньютона говорит о действии и противодействии?", "answer": "Третий", "modifier": "none", "secret": false }
+          ]
+        },
+        {
+          "name": "География",
+          "questions": [
+            { "value": 300, "text": "Самое глубокое озеро в мире?", "answer": "Байкал", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Самая высокая гора в мире?", "answer": "Эверест", "modifier": "none", "secret": false },
+            { "value": 900, "text": "Самая длинная река России?", "answer": "Лена", "modifier": "approx", "secret": false }
+          ]
+        },
+        {
+          "name": "Всё подряд",
+          "questions": [
+            { "value": 300, "text": "Сколько дней в феврале невисокосного года?", "answer": "Двадцать восемь", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Какой напиток делают из листьев камелии китайской?", "answer": "Чай", "modifier": "none", "secret": true },
+            { "value": 900, "text": "Сколько минут длится один тайм в футболе?", "answer": "45 минут", "modifier": "ask", "secret": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "final": {
+    "topics": [
+      { "name": "Числа", "question": { "text": "Сколько будет 12 × 12?", "answer": "144" } },
+      { "name": "Кино", "question": { "text": "Какой фильм Андрея Тарковского снят по повести братьев Стругацких?", "answer": "«Сталкер»" } },
+      { "name": "Загадки", "question": { "text": "Что можно сломать, не прикасаясь к этому?", "answer": "Обещание (или тишину)" } },
+      { "name": "Города", "question": { "text": "Единственный город, расположенный сразу на двух континентах?", "answer": "Стамбул" } }
+    ]
+  }
+}
