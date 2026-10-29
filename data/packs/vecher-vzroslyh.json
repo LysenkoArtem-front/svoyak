@@ -1,0 +1,120 @@
+{
+  "rounds": [
+    {
+      "categories": [
+        {
+          "name": "Наука",
+          "questions": [
+            { "value": 100, "text": "Какой газ человек выдыхает больше всего?", "answer": "Углекислый газ (CO₂)", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Сколько планет в Солнечной системе?", "answer": "Восемь", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Самое твёрдое природное вещество на Земле?", "answer": "Алмаз", "modifier": "invert", "secret": false }
+          ]
+        },
+        {
+          "name": "История",
+          "questions": [
+            { "value": 100, "text": "В каком году началась Вторая мировая война?", "answer": "В 1939 году", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Кто был первым человеком в космосе?", "answer": "Юрий Гагарин", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Сколько лет длилась Столетняя война?", "answer": "116 лет", "modifier": "approx", "secret": false }
+          ]
+        },
+        {
+          "name": "География",
+          "questions": [
+            { "value": 100, "text": "Столица Италии?", "answer": "Рим", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Самый большой океан на Земле?", "answer": "Тихий океан", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Единственная река, вытекающая из Байкала?", "answer": "Ангара", "modifier": "none", "secret": true }
+          ]
+        },
+        {
+          "name": "Литература",
+          "questions": [
+            { "value": 100, "text": "Кто написал роман «Евгений Онегин»?", "answer": "Александр Пушкин", "modifier": "none", "secret": false },
+            { "value": 200, "text": "Назовите трёх мушкетёров.", "answer": "Атос, Портос и Арамис", "modifier": "none", "secret": false },
+            { "value": 300, "text": "Сколько томов в романе «Война и мир»?", "answer": "Четыре", "modifier": "invert", "secret": false }
+          ]
+        }
+      ]
+    },
+    {
+      "categories": [
+        {
+          "name": "Народная классика",
+          "questions": [
+            { "value": 200, "text": "Закончите народную мудрость: «Работа не волк — …»", "answer": "…в лес не убежит", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Какой универсальный мат-ответ подходит абсолютно к любому вопросу?", "answer": "Хуй знает", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Какое чувство выражает «ни хуя себе»?", "answer": "Крайнее удивление", "modifier": "invert", "secret": false }
+          ]
+        },
+        {
+          "name": "Бытовое",
+          "questions": [
+            { "value": 200, "text": "Сколько лет в среднем человек проводит во сне?", "answer": "Около 25 лет", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Сколько раз в день средний человек берёт в руки телефон?", "answer": "Примерно 100 раз", "modifier": "approx", "secret": false },
+            { "value": 600, "text": "Как называется страх пропустить что-то интересное в интернете?", "answer": "FOMO, «фомо»", "modifier": "none", "secret": false }
+          ]
+        },
+        {
+          "name": "Коты наглеют",
+          "questions": [
+            { "value": 200, "text": "Кто орёт дикой песней, когда его несут к воде?", "answer": "Кот", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Чем домашний кот занимается 16 часов в сутки?", "answer": "Спит", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Сколько раз в сутки ваш кот смотрит на вас с презрением? Оцените на глаз.", "answer": "Любая цифра — засчитывается", "modifier": "ask", "secret": false }
+          ]
+        },
+        {
+          "name": "Школа и армия",
+          "questions": [
+            { "value": 200, "text": "Что означает армейское слово «дембель»?", "answer": "Увольнение в запас, демобилизация", "modifier": "none", "secret": false },
+            { "value": 400, "text": "Какая фраза учителя означает «вы обречены»?", "answer": "Это вам на ЕГЭ не пригодится, но знать надо", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Какое слово из трёх букв школьники пишут на заборе чаще всего?", "answer": "Хуй", "modifier": "none", "secret": true }
+          ]
+        }
+      ]
+    },
+    {
+      "categories": [
+        {
+          "name": "Показалка",
+          "questions": [
+            { "value": 300, "text": "Что изображено на картинке?", "answer": "Ёлка", "image": "data/images/elka.png", "modifier": "none", "secret": false },
+            { "value": 600, "text": "А это кто смотрит на вас с презрением?", "answer": "Кот", "image": "data/images/kot.png", "modifier": "none", "secret": false },
+            { "value": 900, "text": "Что это за строение?", "answer": "Дом", "image": "data/images/dom.png", "modifier": "invert", "secret": false }
+          ]
+        },
+        {
+          "name": "Матерком",
+          "questions": [
+            { "value": 300, "text": "Каким словом на «п» называют полный крах ситуации?", "answer": "Пиздец", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Что означает глагол «пиздеть» в народной речи?", "answer": "Врать, молоть чепуху", "modifier": "none", "secret": false },
+            { "value": 900, "text": "Сколько раз человек матерится, собирая шкаф из ИКЕА? Оцените.", "answer": "Любая цифра принимается", "modifier": "ask", "secret": false }
+          ]
+        },
+        {
+          "name": "Пятница",
+          "questions": [
+            { "value": 300, "text": "Как называется состояние, когда тело ещё на работе, а душа уже в баре?", "answer": "Пятничное настроение", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Что русский человек делает в бане между заходами в парилку?", "answer": "Пьёт", "modifier": "invert", "secret": false },
+            { "value": 900, "text": "Сколько тостов прозвучит за семейным застольем до первой ссоры? Оцените.", "answer": "Любая цифра — принимается", "modifier": "ask", "secret": false }
+          ]
+        },
+        {
+          "name": "Всякое",
+          "questions": [
+            { "value": 300, "text": "Как народным словом называют часами смотреть в телефон, ничего не делая?", "answer": "Долбоящик", "modifier": "none", "secret": false },
+            { "value": 600, "text": "Что молодёжь называет словом «краш»?", "answer": "Человек, в которого влюблён; предмет симпатии", "modifier": "none", "secret": true },
+            { "value": 900, "text": "Сколько чипсов съедает человек, сказавший «я только одну»? Оцените.", "answer": "Всю пачку", "modifier": "approx", "secret": false }
+          ]
+        }
+      ]
+    }
+  ],
+  "final": {
+    "topics": [
+      { "name": "Тот самый мат", "question": { "text": "Каким словом на «х» русский человек отвечает на вопрос «как дела?», если дела никакие?", "answer": "Хуй знает", "image": "" } },
+      { "name": "Архимед", "question": { "text": "Что, по легенде, выкрикнул Архимед, выскочив из ванны?", "answer": "Эврика!", "image": "" } },
+      { "name": "Кино", "question": { "text": "Какой вопрос про силу задал Данила Багров в фильме «Брат»?", "answer": "«В чём сила, брат?»", "image": "" } },
+      { "name": "Застолье", "question": { "text": "Как русские традиционно закусывают?", "answer": "Всем, что на столе", "image": "" } }
+    ]
+  }
+}
