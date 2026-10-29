@@ -8,6 +8,7 @@ import { esc, fmtScore } from './util.js';
 import { loadPackFromObject, packSummary, exportPack, renderEditor } from './pack.js';
 import { renderBoard, renderQuestion } from './board.js';
 import { renderFinal } from './final.js';
+import { createRoom, closeRoom, resumeRoom } from './room.js';
 
 const SCREEN_IDS = {
   setup: 'screen-setup',
@@ -56,6 +57,28 @@ function renderSetup(root, state) {
       </div>
       ${state.packStatus ? `<p class="msg ${state.packStatus.type === 'error' ? 'msg-error' : 'msg-ok'}">${esc(state.packStatus.text)}</p>` : ''}
       <input id="file-import" type="file" accept=".json,application/json" hidden>
+    </div>
+
+    <div class="card setup-card">
+      <h2>Онлайн-комната для игроков</h2>
+      ${state.room ? `
+        <p class="pack-status pack-loaded">
+          Код комнаты: <b class="room-code">${esc(state.room.code)}</b>
+          · ${roomStatusText(state.room.status)}
+          · подключились: ${state.room.online.length ? esc(state.room.online.join(', ')) : 'пока никто'}
+        </p>
+        <p class="pack-status">
+          Страница игрока: <a class="room-link" href="${esc(playerUrl())}" target="_blank" rel="noopener">${esc(playerUrl())}</a>
+          <button id="btn-copy-link" class="btn btn-ghost" type="button">Скопировать ссылку</button>
+        </p>
+        <div class="btn-row">
+          <button id="btn-close-room" class="btn btn-ghost btn-danger" type="button">Закрыть комнату</button>
+        </div>`
+      : `
+        <p class="pack-status">Игроки откроют страницу игрока, введут код — и получат кнопку «Отвечаю!» и свой счёт на телефоне.</p>
+        <div class="btn-row">
+          <button id="btn-create-room" class="btn" type="button">Создать комнату</button>
+        </div>`}
     </div>
 
     <div class="card setup-card start-card">
@@ -133,6 +156,28 @@ function renderSetup(root, state) {
       s.pack = null;
       s.packStatus = null;
     });
+  }
+
+  /* Онлайн-комната */
+  const createBtn = root.querySelector('#btn-create-room');
+  if (createBtn) {
+    createBtn.onclick = () => createRoom();
+  }
+  const closeRoomBtn = root.querySelector('#btn-close-room');
+  if (closeRoomBtn) {
+    closeRoomBtn.onclick = () => closeRoom();
+  }
+  const copyLinkBtn = root.querySelector('#btn-copy-link');
+  if (copyLinkBtn) {
+    copyLinkBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(playerUrl());
+        copyLinkBtn.textContent = 'Скопировано ✓';
+        setTimeout(() => { copyLinkBtn.textContent = 'Скопировать ссылку'; }, 1500);
+      } catch {
+        window.prompt('Скопируйте ссылку вручную:', playerUrl());
+      }
+    };
   }
 
   /* Старт */
@@ -264,12 +309,36 @@ function renderScorebar(state) {
         <span class="score">${fmtScore(p.score)}</span>
       </span>`)
     .join('');
+
+  const chip = document.getElementById('room-chip');
+  if (!state.room) {
+    chip.classList.add('hidden');
+    return;
+  }
+  chip.classList.remove('hidden');
+  chip.innerHTML = `
+    <span class="room-dot room-dot-${esc(state.room.status)}"></span>
+    Комната <b>${esc(state.room.code)}</b>`;
+}
+
+function roomStatusText(status) {
+  return {
+    connecting: 'подключение к брокеру…',
+    online: 'комната на связи',
+    error: 'нет связи с брокером',
+  }[status] ?? status;
+}
+
+/** Адрес страницы игрока рядом с приложением ведущего. */
+function playerUrl() {
+  return new URL('player.html', location.href).href;
 }
 
 /* ---------- Запуск ---------- */
 
 initStore();
 subscribe(render);
+resumeRoom(); // восстановить комнату, если игра перезагрузилась
 
 // Первый запуск: сразу два поля для игроков.
 function seedPlayers() {
@@ -294,6 +363,7 @@ document.getElementById('btn-undo').onclick = () => update((s) => {
 document.getElementById('btn-new-game').onclick = () => {
   const inProgress = getState().screen !== 'setup' && getState().screen !== 'editor';
   if (inProgress && !confirm('Начать новую игру? Текущий прогресс будет удалён.')) return;
+  closeRoom(); // новая игра — новая комната
   clearState();
   update((s) => {
     Object.assign(s, defaultState());

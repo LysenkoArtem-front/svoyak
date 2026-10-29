@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0e1630">
+  <title>Свояк — игрок</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/player.css">
+</head>
+<body>
+  <noscript>Для работы нужен включённый JavaScript.</noscript>
+
+  <!-- Подключение к игре -->
+  <div id="join-view" class="join-view">
+    <div class="join-card">
+      <h1 class="player-logo">Свояк</h1>
+      <p class="subtitle">Введите код комнаты и своё имя — ведущий видит его на своём экране.</p>
+      <input id="inp-code" type="text" inputmode="latin" placeholder="Код комнаты" maxlength="4"
+        autocapitalize="characters" autocomplete="off">
+      <input id="inp-name" type="text" placeholder="Ваше имя" maxlength="20" autocomplete="off">
+      <button id="btn-join" class="btn btn-primary btn-big" type="button" disabled>Войти в игру</button>
+      <p id="join-msg" class="msg hidden"></p>
+    </div>
+  </div>
+
+  <!-- Игровой экран -->
+  <div id="game-view" class="game-view hidden">
+    <header class="player-head">
+      <span id="pl-status" class="pl-status"><span class="room-dot room-dot-connecting"></span> подключение…</span>
+      <span class="pl-room">Комната <b id="pl-code"></b></span>
+      <button id="btn-leave" class="btn btn-ghost btn-danger pl-leave" type="button">Выйти</button>
+    </header>
+
+    <div class="score-card">
+      <div class="score-name" id="pl-name">—</div>
+      <div class="score-value" id="pl-score">0</div>
+    </div>
+
+    <button id="btn-buzz" class="buzz" type="button" disabled>Отвечаю!</button>
+    <div id="pl-hint" class="pl-hint"></div>
+
+    <div class="mini-scores" id="mini-scores"></div>
+  </div>
+
+  <script src="js/vendor/mqtt.min.js"></script>
+  <script type="module" src="js/player.js"></script>
+</body>
+</html>

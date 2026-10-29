@@ -13,10 +13,12 @@ export function defaultState() {
     currentRound: 0,
     played: [],           // ключи сыгранных вопросов "раунд:категория:вопрос"
     approx: {},           // { [индексРаунда]: true } — «можно отвечать приблизительно»
-  question: null,       // открытый вопрос { r, c, q, secretPlayerId, answerShown }
-  final: null,          // состояние финала
-  setupMsg: null,       // { type: 'ok' | 'error', text } — сообщение экрана настройки
-  undoStack: [],
+    question: null,       // открытый вопрос { r, c, q, secretPlayerId, answerShown }
+    final: null,          // состояние финала
+    room: null,           // онлайн-комната { code, online: [], status }
+    buzzes: [],           // нажатия кнопки игроками [{ name, at }]
+    setupMsg: null,       // { type: 'ok' | 'error', text } — сообщение экрана настройки
+    undoStack: [],
   };
 }
 

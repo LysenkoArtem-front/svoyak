@@ -81,6 +81,7 @@ export function renderBoard(root, state) {
         s.question = { r: s.currentRound, c: ci, q: qi, secretPlayerId: null, answerShown: false };
         // Модификатор «приблизительно» действует до конца раунда с момента раскрытия вопроса.
         if (q.modifier === 'approx') s.approx[s.currentRound] = true;
+        s.buzzes = []; // новая гонка — новая очередь нажатий
         s.screen = 'question';
       });
     };
@@ -98,6 +99,41 @@ export function renderBoard(root, state) {
     });
   };
 }
+
+/* ---------- Очередь нажатий из онлайн-комнаты ---------- */
+
+function agoLabel(at) {
+  const ms = Date.now() - at;
+  if (ms < 60000) return ms < 1000 ? `${(ms / 1000).toFixed(1)} с` : `${Math.round(ms / 1000)} с`;
+  return '>1 мин';
+}
+
+function renderBuzzList(buzzes) {
+  if (!buzzes?.length) return '';
+  const items = buzzes
+    .map((b, i) => `
+      <span class="buzz-item ${i === 0 ? 'buzz-first' : ''}">
+        <span class="buzz-num">${i + 1}</span> ${esc(b.name)}
+        <span class="buzz-ago" data-at="${b.at}">${agoLabel(b.at)}</span>
+      </span>`)
+    .join('');
+  return `
+    <div class="buzz-list">
+      <span class="buzz-title">Нажали кнопку:</span>
+      ${items}
+    </div>`;
+}
+
+// Тикер обновляет «сколько секунд назад» без полной перерисовки экрана.
+setInterval(() => {
+  const state = getState();
+  if (state.screen !== 'question' || !state.buzzes?.length) return;
+  document.querySelectorAll('.buzz-ago').forEach((el) => {
+    el.textContent = agoLabel(Number(el.dataset.at));
+  });
+}, 500);
+
+/* ---------- Экран вопроса ---------- */
 
 export function renderQuestion(root, state) {
   const info = state.question;
@@ -119,6 +155,7 @@ export function renderQuestion(root, state) {
   if (isSecret) notices.push(picked ? `Секретный вопрос — отвечает только ${picked.name}.` : 'Секретный вопрос — выберите, кому он достаётся.');
 
   const who = isSecret && picked ? [picked] : state.players;
+  const buzzHtml = renderBuzzList(state.buzzes);
 
   const standardRows = who.map((p) => `
     <div class="award-row">
@@ -148,6 +185,8 @@ export function renderQuestion(root, state) {
       ${notices.map((text) => `<p class="notice">${esc(text)}</p>`).join('')}
 
       <div class="q-text">${q.text ? esc(q.text) : '<span class="muted">Текст вопроса не задан — озвучьте свой.</span>'}</div>
+
+      ${buzzHtml}
 
       <div class="answer-zone">
         <button id="btn-toggle-answer" class="btn" type="button">${info.answerShown ? 'Скрыть ответ' : 'Показать ответ'}</button>

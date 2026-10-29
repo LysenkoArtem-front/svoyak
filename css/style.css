@@ -509,6 +509,99 @@ input:focus-visible, select:focus-visible {
   margin-top: 24px;
 }
 
+/* ---------- Онлайн-комната ---------- */
+
+.room-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border: 1px solid rgba(255, 213, 74, 0.5);
+  border-radius: 999px;
+  font-size: 14px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.room-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-dim);
+}
+
+.room-dot-online { background: var(--good); }
+.room-dot-connecting { background: var(--accent); }
+.room-dot-error { background: var(--bad); }
+
+.room-code {
+  font-size: 22px;
+  letter-spacing: 4px;
+  color: var(--accent);
+}
+
+.room-link {
+  color: var(--accent);
+  word-break: break-all;
+}
+
+/* ---------- Нажатия кнопки игроками ---------- */
+
+.buzz-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  background: rgba(76, 209, 126, 0.08);
+  border: 1px solid rgba(76, 209, 126, 0.4);
+  border-radius: 8px;
+}
+
+.buzz-title {
+  color: var(--good);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.buzz-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 15px;
+}
+
+.buzz-first {
+  border-color: var(--accent);
+  background: rgba(255, 213, 74, 0.15);
+  font-weight: 700;
+}
+
+.buzz-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--panel);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.buzz-first .buzz-num { background: var(--accent); color: var(--accent-ink); }
+
+.buzz-ago {
+  color: var(--ink-dim);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- Кнопки ---------- */
 
 .btn {
