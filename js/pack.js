@@ -13,7 +13,7 @@ export const MODIFIER_LABELS = {
 const MODIFIERS = Object.keys(MODIFIER_LABELS);
 
 export function emptyQuestion(value = 100) {
-  return { value, text: '', answer: '', modifier: 'none', secret: false };
+  return { value, text: '', answer: '', image: '', modifier: 'none', secret: false };
 }
 
 export function emptyCategory() {
@@ -44,6 +44,7 @@ function normQuestion(q) {
     value: Number.isFinite(value) && value > 0 ? value : 100,
     text: String(q?.text ?? ''),
     answer: String(q?.answer ?? ''),
+    image: String(q?.image ?? '').trim(),
     modifier: MODIFIERS.includes(q?.modifier) ? q.modifier : 'none',
     secret: Boolean(q?.secret),
   };
@@ -63,13 +64,14 @@ function normRound(r) {
 // Тему финала можно задать и просто строкой — тогда вопрос впишут позже.
 function normTopic(t) {
   if (typeof t === 'string') {
-    return { name: t.trim(), question: { text: '', answer: '' } };
+    return { name: t.trim(), question: { text: '', answer: '', image: '' } };
   }
   return {
     name: String(t?.name ?? '').trim(),
     question: {
       text: String(t?.question?.text ?? ''),
       answer: String(t?.question?.answer ?? ''),
+      image: String(t?.question?.image ?? '').trim(),
     },
   };
 }
@@ -144,6 +146,31 @@ export function exportPack(pack, filename = 'svoyak-pack.json') {
   URL.revokeObjectURL(url);
 }
 
+/** Файл → уменьшенный data-URL (JPEG до 640px) — чтобы пак не раздувался. */
+export function fileToDataUrl(file, maxSize = 640, quality = 0.75) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('файл не является картинкой'));
+    };
+    img.src = url;
+  });
+}
+
 /* ---------- Встроенный редактор пака ---------- */
 
 const EDITOR_MODIFIER_LABELS = {
@@ -169,14 +196,20 @@ export function renderEditor(root) {
 
   const questionHtml = (q, qi) => `
     <div class="q" data-q="${qi}">
-      <input class="q-value" type="number" min="1" step="1" value="${esc(q.value)}" title="Номинал">
-      <input class="q-text" placeholder="Вопрос" value="${esc(q.text)}">
-      <input class="q-answer" placeholder="Ответ" value="${esc(q.answer)}">
-      <select class="q-modifier" title="Модификатор">${modOptions(q.modifier)}</select>
-      <label class="q-secret" title="Секретный вопрос — назначается конкретному игроку">
-        <input type="checkbox" ${q.secret ? 'checked' : ''}> секрет
-      </label>
-      <button class="btn btn-ghost btn-danger q-del" type="button" title="Удалить вопрос">✕</button>
+      <div class="q-main">
+        <input class="q-value" type="number" min="1" step="1" value="${esc(q.value)}" title="Номинал">
+        <input class="q-text" placeholder="Вопрос" value="${esc(q.text)}">
+        <input class="q-answer" placeholder="Ответ" value="${esc(q.answer)}">
+        <select class="q-modifier" title="Модификатор">${modOptions(q.modifier)}</select>
+        <label class="q-secret" title="Секретный вопрос — назначается конкретному игроку">
+          <input type="checkbox" ${q.secret ? 'checked' : ''}> секрет
+        </label>
+        <button class="btn btn-ghost btn-danger q-del" type="button" title="Удалить вопрос">✕</button>
+      </div>
+      <div class="q-media">
+        <input class="q-image" placeholder="Картинка к вопросу: URL, путь в проекте или через «📷 Файл»" value="${esc(q.image ?? '')}">
+        <button class="btn btn-ghost q-upload" type="button" title="Загрузить картинку с устройства">📷 Файл</button>
+      </div>
     </div>`;
 
   const categoryHtml = (cat, ci) => `
@@ -224,6 +257,7 @@ export function renderEditor(root) {
           <input class="t-text" placeholder="Вопрос финала" value="${esc(t.question.text)}">
           <input class="t-answer" placeholder="Ответ" value="${esc(t.question.answer)}">
           <button class="btn btn-ghost btn-danger t-del" type="button" title="Удалить тему">✕</button>
+          <input class="t-image" placeholder="Картинка к вопросу финала (необязательно)" value="${esc(t.question.image ?? '')}">
         </div>`).join('')}
       <button class="btn btn-ghost t-add" type="button">+ Тема</button>
     </div>`;
@@ -244,6 +278,7 @@ function readEditorDom(root) {
         value: Math.round(Number(qEl.querySelector('.q-value').value)) || 0,
         text: qEl.querySelector('.q-text').value,
         answer: qEl.querySelector('.q-answer').value,
+        image: qEl.querySelector('.q-image').value.trim(),
         modifier: qEl.querySelector('.q-modifier').value,
         secret: qEl.querySelector('.q-secret input').checked,
       })),
@@ -255,6 +290,7 @@ function readEditorDom(root) {
     question: {
       text: tEl.querySelector('.t-text').value,
       answer: tEl.querySelector('.t-answer').value,
+      image: tEl.querySelector('.t-image').value.trim(),
     },
   }));
 
@@ -302,6 +338,28 @@ function bindEditor(root) {
       const ci = Number(btn.closest('.cat').dataset.cat);
       const qi = Number(btn.closest('.q').dataset.q);
       rebuildEditor(root, (d) => { d.rounds[editorRound].categories[ci].questions.splice(qi, 1); });
+    };
+  });
+
+  // Кнопка «📷 Файл»: картинка с устройства → уменьшенный data-URL в поле ссылки.
+  root.querySelectorAll('.q-upload').forEach((btn) => {
+    btn.onclick = () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+        btn.textContent = 'обработка…';
+        try {
+          const dataUrl = await fileToDataUrl(file);
+          btn.closest('.q').querySelector('.q-image').value = dataUrl;
+        } catch (e) {
+          alert(`Не удалось загрузить картинку: ${e.message}`);
+        }
+        btn.textContent = '📷 Файл';
+      };
+      input.click();
     };
   });
 

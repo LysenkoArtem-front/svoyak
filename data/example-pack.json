@@ -29,7 +29,7 @@
         {
           "name": "Еда",
           "questions": [
-            { "value": 100, "text": "Итальянская лепёшка с сыром и томатами?", "answer": "Пицца", "modifier": "none", "secret": false },
+            { "value": 100, "text": "Что изображено на картинке?", "answer": "Пицца", "image": "data/images/pizza.png", "modifier": "none", "secret": false },
             { "value": 200, "text": "Японское блюдо из риса и сырой рыбы?", "answer": "Суши", "modifier": "none", "secret": false },
             { "value": 300, "text": "Сколько граммов сахара в чайной ложке (примерно)?", "answer": "Около 5–7 граммов", "modifier": "ask", "secret": false }
           ]

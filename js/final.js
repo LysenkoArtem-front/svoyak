@@ -205,6 +205,7 @@ function renderFinalQuestion(root, state) {
   root.innerHTML = frame(`
     <p class="notice">Тема финала: <b>${esc(topic.name)}</b></p>
     <div class="q-text">${q.text ? esc(q.text) : '<span class="muted">Текст вопроса не задан — озвучьте свой.</span>'}</div>
+    ${q.image ? `<img class="q-image-view" src="${esc(q.image)}" alt="Картинка к вопросу финала">` : ''}
     <div class="answer-zone">
       <button id="btn-toggle-answer" class="btn" type="button">${f.answerShown ? 'Скрыть ответ' : 'Показать ответ'}</button>
       ${f.answerShown ? `<div class="answer-text">${q.answer ? esc(q.answer) : '<span class="muted">Ответ в паке не задан.</span>'}</div>` : ''}

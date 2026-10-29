@@ -185,6 +185,7 @@ export function renderQuestion(root, state) {
       ${notices.map((text) => `<p class="notice">${esc(text)}</p>`).join('')}
 
       <div class="q-text">${q.text ? esc(q.text) : '<span class="muted">Текст вопроса не задан — озвучьте свой.</span>'}</div>
+      ${q.image ? `<img class="q-image-view" src="${esc(q.image)}" alt="Картинка к вопросу">` : ''}
 
       ${buzzHtml}
 

@@ -228,12 +228,24 @@ input:focus-visible, select:focus-visible {
 .cat-head input { flex: 1; font-weight: 600; }
 
 .q {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.q-main {
   display: grid;
   grid-template-columns: 84px 1.5fr 1.2fr 170px 84px 36px;
   gap: 8px;
   align-items: center;
-  margin-bottom: 8px;
 }
+
+.q-media { display: flex; gap: 8px; }
+
+.q-media .q-image { flex: 1; font-size: 14px; }
+
+.q-media .q-upload { padding: 6px 10px; font-size: 14px; white-space: nowrap; }
 
 .q-secret {
   display: flex;
@@ -250,6 +262,23 @@ input:focus-visible, select:focus-visible {
   gap: 8px;
   align-items: center;
   margin-bottom: 8px;
+}
+
+.topic .t-image {
+  grid-column: 1 / -1;
+  font-size: 14px;
+}
+
+/* Картинка к вопросу */
+.q-image-view {
+  display: block;
+  max-width: 100%;
+  max-height: 46vh;
+  object-fit: contain;
+  margin: 0 0 16px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #fff;
 }
 
 .card h3 { margin: 20px 0 10px; }
