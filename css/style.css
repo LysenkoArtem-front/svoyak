@@ -1,4 +1,12 @@
-/* Свояк — помощник ведущего. Тема: тёмно-синяя «игровая», акцент жёлтый. */
+/* Свояк — помощник ведущего. Тема: тёмный тил, песочный акцент, выжженный апельсин. */
+
+@font-face {
+  font-family: 'Adwaita Sans';
+  src: url('../fonts/AdwaitaSans-Regular.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --bg: #1c2f2c;            /* тёмный чернильный тил */
@@ -25,7 +33,7 @@ html, body { height: 100%; }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: 'Adwaita Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.45;
   color: var(--ink);

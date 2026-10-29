@@ -102,6 +102,7 @@ js/player.js          — логика страницы игрока
 js/net.js             — транспорт синхронизации (публичные MQTT-брокеры)
 js/vendor/mqtt.min.js — библиотека mqtt.js (локально, без CDN)
 js/util.js            — мелкие помощники
+fonts/                — шрифт Adwaita Sans (локально, без CDN)
 data/example-pack.json — пример пака (36 вопросов)
 dev-server.mjs        — локальный сервер разработки без кэширования
 ```
