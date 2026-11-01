@@ -17,6 +17,7 @@ export function defaultState() {
     final: null,          // состояние финала
     room: null,           // онлайн-комната { code, online: [], status }
     buzzes: [],           // нажатия кнопки игроками [{ name, at }]
+    approxPlayers: {},    // { [индексРаунда]: { [playerId]: true } } — «приблизительно» на игрока
     setupMsg: null,       // { type: 'ok' | 'error', text } — сообщение экрана настройки
     undoStack: [],
   };
@@ -76,7 +77,7 @@ export function clearState() {
 
 /* ---------- Отмена действий ---------- */
 
-const UNDO_FIELDS = ['players', 'played', 'approx', 'currentRound', 'question', 'final'];
+const UNDO_FIELDS = ['players', 'played', 'approxPlayers', 'currentRound', 'question', 'final'];
 
 /** Вызывать ПЕРЕД мутацией, которую можно отменить. */
 export function pushUndo(state) {

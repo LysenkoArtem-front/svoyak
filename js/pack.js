@@ -194,11 +194,13 @@ export function renderEditor(root) {
     .map(([value, label]) => `<option value="${value}" ${value === selected ? 'selected' : ''}>${label}</option>`)
     .join('');
 
-  const questionHtml = (q, qi) => `
+  const questionHtml = (q, qi) => {
+    const textPlaceholder = q.modifier === 'none' ? 'Вопрос' : 'Описание эффекта (необязательно)';
+    return `
     <div class="q" data-q="${qi}">
       <div class="q-main">
         <input class="q-value" type="number" min="1" step="1" value="${esc(q.value)}" title="Номинал">
-        <input class="q-text" placeholder="Вопрос" value="${esc(q.text)}">
+        <input class="q-text" placeholder="${textPlaceholder}" value="${esc(q.text)}">
         <input class="q-answer" placeholder="Ответ" value="${esc(q.answer)}">
         <select class="q-modifier" title="Модификатор">${modOptions(q.modifier)}</select>
         <label class="q-secret" title="Секретный вопрос — назначается конкретному игроку">
@@ -211,6 +213,7 @@ export function renderEditor(root) {
         <button class="btn btn-ghost q-upload" type="button" title="Загрузить картинку с устройства">📷 Файл</button>
       </div>
     </div>`;
+  };
 
   const categoryHtml = (cat, ci) => `
     <div class="cat" data-cat="${ci}">
@@ -342,6 +345,14 @@ function bindEditor(root) {
   });
 
   // Кнопка «📷 Файл»: картинка с устройства → уменьшенный data-URL в поле ссылки.
+  // Поле текста: для модификаторной карточки это описание эффекта, а не вопрос.
+  root.querySelectorAll('.q-modifier').forEach((sel) => {
+    sel.onchange = () => {
+      const qEl = sel.closest('.q');
+      qEl.querySelector('.q-text').placeholder = sel.value === 'none' ? 'Вопрос' : 'Описание эффекта (необязательно)';
+    };
+  });
+
   root.querySelectorAll('.q-upload').forEach((btn) => {
     btn.onclick = () => {
       const input = document.createElement('input');

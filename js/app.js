@@ -197,7 +197,7 @@ function renderSetup(root, state) {
       s.screen = 'board';
       s.currentRound = 0;
       s.played = [];
-      s.approx = {};
+      s.approxPlayers = {};
       s.question = null;
       s.final = null;
       s.undoStack = [];
@@ -250,7 +250,7 @@ function renderResults(root, state) {
     update((s) => {
       s.players.forEach((p) => { p.score = 0; });
       s.played = [];
-      s.approx = {};
+      s.approxPlayers = {};
       s.currentRound = 0;
       s.question = null;
       s.final = null;

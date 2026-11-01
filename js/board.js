@@ -1,4 +1,4 @@
-/* Раунды 1–3: сетка категорий и вопросов, экран вопроса. */
+/* Раунды 1–3: сетка категорий и вопросов, экран вопроса, модификаторные карточки. */
 
 import { getState, update, pushUndo } from './state.js';
 import { esc, fmtScore, fmtDelta } from './util.js';
@@ -8,11 +8,27 @@ export function questionKey(r, c, q) {
   return `${r}:${c}:${q}`;
 }
 
-/** Изменение счёта за ответ: верно → +номинал, неверно → −номинал (с учётом «+ на −»). */
+/** Изменение счёта за ответ на обычный вопрос: верно → +номинал, неверно → −номинал. */
 export function questionDelta(q, correct) {
   const sign = correct ? 1 : -1;
-  return q.modifier === 'invert' ? -sign * q.value : sign * q.value;
+  return sign * q.value;
 }
+
+/** Название и стандартное описание эффекта модификаторной карточки. */
+const EFFECTS = {
+  invert: {
+    title: '+ на −',
+    desc: 'Весь счёт выбранного игрока меняет знак: плюс станет минусом, минус — плюсом. При 0 баллов эффект не срабатывает.',
+  },
+  approx: {
+    title: 'Приблизительно',
+    desc: 'Игрок до конца раунда может отвечать приблизительно.',
+  },
+  ask: {
+    title: 'Попросить баллы',
+    desc: 'Игрок просит у ведущего любое количество баллов — назначьте сумму сами (можно с минусом).',
+  },
+};
 
 export function renderBoard(root, state) {
   const r = state.currentRound;
@@ -32,12 +48,10 @@ export function renderBoard(root, state) {
     0,
   );
 
-  const badges = (q) => [
-    q.modifier === 'invert' ? '<span class="badge" title="Модификатор: + на −">±</span>' : '',
-    q.modifier === 'approx' ? '<span class="badge" title="Можно отвечать приблизительно">≈</span>' : '',
-    q.modifier === 'ask' ? '<span class="badge" title="Попросить баллы у ведущего">🙋</span>' : '',
-    q.secret ? '<span class="badge badge-secret" title="Секретный вопрос">🔒</span>' : '',
-  ].join('');
+  // Модификатор «приблизительно» действует на конкретных игроков — перечислим их.
+  const approxNames = state.players
+    .filter((p) => state.approxPlayers?.[r]?.[p.id])
+    .map((p) => p.name);
 
   const columnHtml = (cat, ci) => {
     const sorted = cat.questions.map((q, qi) => ({ q, qi })).sort((a, b) => a.q.value - b.q.value);
@@ -50,7 +64,6 @@ export function renderBoard(root, state) {
             <button class="board-cell ${played ? 'played' : ''}" type="button"
               data-cell="${ci}:${qi}" ${played ? 'disabled' : ''}>
               <span class="cell-value">${q.value}</span>
-              <span class="cell-badges">${badges(q)}</span>
             </button>`;
         }).join('')}
       </div>`;
@@ -61,7 +74,7 @@ export function renderBoard(root, state) {
       <div class="board-head">
         <h2>Раунд ${r + 1} из ${roundsTotal}</h2>
         <div class="board-tools">
-          ${state.approx[r] ? '<span class="badge-round" title="Модификатор раунда">≈ в этом раунде можно отвечать приблизительно</span>' : ''}
+          ${approxNames.length ? `<span class="badge-round" title="Модификатор раунда">≈ приблизительно: ${esc(approxNames.join(', '))}</span>` : ''}
           <span class="muted">Сыграно: ${playedInRound} из ${total}</span>
           <button id="btn-next-round" class="btn btn-primary" type="button">
             ${isLastRound ? 'Перейти в финал →' : 'Следующий раунд →'}
@@ -77,10 +90,7 @@ export function renderBoard(root, state) {
     btn.onclick = () => {
       const [ci, qi] = btn.dataset.cell.split(':').map(Number);
       update((s) => {
-        const q = s.pack.rounds[s.currentRound].categories[ci].questions[qi];
         s.question = { r: s.currentRound, c: ci, q: qi, secretPlayerId: null, answerShown: false };
-        // Модификатор «приблизительно» действует до конца раунда с момента раскрытия вопроса.
-        if (q.modifier === 'approx') s.approx[s.currentRound] = true;
         s.buzzes = []; // новая гонка — новая очередь нажатий
         s.screen = 'question';
       });
@@ -133,45 +143,41 @@ setInterval(() => {
   });
 }, 500);
 
-/* ---------- Экран вопроса ---------- */
+/* ---------- Экран вопроса / модификаторной карточки ---------- */
 
 export function renderQuestion(root, state) {
   const info = state.question;
   const q = state.pack.rounds[info.r].categories[info.c].questions[info.q];
+  if (q.modifier !== 'none') {
+    renderModifierCard(root, state, q);
+    return;
+  }
+  renderRealQuestion(root, state, q);
+}
+
+/* ---------- Обычный вопрос ---------- */
+
+function renderRealQuestion(root, state, q) {
+  const info = state.question;
   const category = state.pack.rounds[info.r].categories[info.c];
 
-  const correctDelta = questionDelta(q, true);
-  const wrongDelta = questionDelta(q, false);
-  const isAsk = q.modifier === 'ask';
   const isSecret = q.secret;
   const picked = isSecret ? state.players.find((p) => p.id === info.secretPlayerId) ?? null : null;
   const needPick = isSecret && !picked;
 
-  /* Плашки с активными модификаторами */
-  const notices = [];
-  if (q.modifier === 'invert') notices.push('Модификатор «+ на −»: верный ответ снимает баллы, неверный — приносит.');
-  if (q.modifier === 'approx') notices.push('До конца раунда можно отвечать приблизительно.');
-  if (isAsk) notices.push('Можно попросить у ведущего любое количество баллов — назначьте сумму сами.');
-  if (isSecret) notices.push(picked ? `Секретный вопрос — отвечает только ${picked.name}.` : 'Секретный вопрос — выберите, кому он достаётся.');
-
   const who = isSecret && picked ? [picked] : state.players;
   const buzzHtml = renderBuzzList(state.buzzes);
 
+  const effectTag = (p) => (state.approxPlayers?.[info.r]?.[p.id]
+    ? '<span class="effect-tag effect-approx" title="Можно отвечать приблизительно">≈</span>'
+    : '');
+
   const standardRows = who.map((p) => `
     <div class="award-row">
-      <span class="award-name">${esc(p.name)} <span class="award-score">${fmtScore(p.score)}</span></span>
+      <span class="award-name">${esc(p.name)} ${effectTag(p)} <span class="award-score">${fmtScore(p.score)}</span></span>
       <span class="award-btns">
-        <button class="btn btn-good" type="button" data-award="correct:${p.id}">Верно ${fmtDelta(correctDelta)}</button>
-        <button class="btn btn-danger" type="button" data-award="wrong:${p.id}">Неверно ${fmtDelta(wrongDelta)}</button>
-      </span>
-    </div>`).join('');
-
-  const askRows = who.map((p) => `
-    <div class="award-row ask-row" data-ask="${p.id}">
-      <span class="award-name">${esc(p.name)} <span class="award-score">${fmtScore(p.score)}</span></span>
-      <span class="award-btns">
-        <input class="ask-amount" type="number" step="1" placeholder="Например: 500 или −200" aria-label="Сумма для ${esc(p.name)}">
-        <button class="btn btn-primary ask-apply" type="button" disabled>Начислить</button>
+        <button class="btn btn-good" type="button" data-award="correct:${p.id}">Верно +${q.value}</button>
+        <button class="btn btn-danger" type="button" data-award="wrong:${p.id}">Неверно −${q.value} всем</button>
       </span>
     </div>`).join('');
 
@@ -181,8 +187,6 @@ export function renderQuestion(root, state) {
         <h2>«${esc(category.name)}» · ${q.value} ${q.value === 1 ? 'балл' : 'баллов'}</h2>
         <button id="btn-close-question" class="btn btn-ghost" type="button">Закрыть без начисления</button>
       </div>
-
-      ${notices.map((text) => `<p class="notice">${esc(text)}</p>`).join('')}
 
       <div class="q-text">${q.text ? esc(q.text) : '<span class="muted">Текст вопроса не задан — озвучьте свой.</span>'}</div>
       ${q.image ? `<img class="q-image-view" src="${esc(q.image)}" alt="Картинка к вопросу">` : ''}
@@ -203,8 +207,8 @@ export function renderQuestion(root, state) {
             </button>`).join('')}
         </div>`
       : `
-        <h3>${isAsk ? 'Сколько начислить?' : 'Кто отвечал?'}</h3>
-        <div class="award-rows">${isAsk ? askRows : standardRows}</div>
+        <h3>Кто отвечал?</h3>
+        <div class="award-rows">${standardRows}</div>
         ${isSecret && picked ? '<button id="btn-repick" class="btn btn-ghost" type="button">Сменить игрока</button>' : ''}`}
     </div>`;
 
@@ -229,26 +233,97 @@ export function renderQuestion(root, state) {
   const repick = root.querySelector('#btn-repick');
   if (repick) repick.onclick = () => update((s) => { s.question.secretPlayerId = null; });
 
-  /* Обычные вопросы: верно / неверно */
+  /* Верно — +номинал ответившему и закрытие; неверно — −номинал всем, вопрос открыт */
   root.querySelectorAll('[data-award]').forEach((btn) => {
     btn.onclick = () => {
       const [result, playerId] = btn.dataset.award.split(':');
       update((s) => {
         pushUndo(s);
         const question = s.pack.rounds[s.question.r].categories[s.question.c].questions[s.question.q];
-        const player = s.players.find((p) => p.id === playerId);
-        player.score += questionDelta(question, result === 'correct');
-        s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
-        s.question = null;
-        s.screen = 'board';
+        if (result === 'correct') {
+          const player = s.players.find((p) => p.id === playerId);
+          player.score += question.value;
+          s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
+          s.question = null;
+          s.screen = 'board';
+        } else {
+          // Неверный ответ: номинал снимается у всех, вопрос ждёт верного ответа.
+          s.players.forEach((p) => { p.score -= question.value; });
+        }
       });
     };
   });
+}
 
-  /* «Попросить баллы»: произвольная сумма выбранному игроку */
-  root.querySelectorAll('.ask-row').forEach((row) => {
-    const input = row.querySelector('.ask-amount');
-    const applyBtn = row.querySelector('.ask-apply');
+/* ---------- Модификаторная карточка: баф/дебаф без вопроса ---------- */
+
+function renderModifierCard(root, state, q) {
+  const info = state.question;
+  const eff = EFFECTS[q.modifier];
+  const picked = state.players.find((p) => p.id === info.secretPlayerId) ?? null;
+  const needPick = !picked;
+  const desc = q.text.trim() || eff.desc;
+
+  root.innerHTML = `
+    <div class="card">
+      <div class="board-head">
+        <h2>Модификатор · ${eff.title}</h2>
+        <button id="btn-close-question" class="btn btn-ghost" type="button">Закрыть без применения</button>
+      </div>
+
+      <p class="notice">${esc(desc)}</p>
+      <p id="mod-msg" class="msg msg-error hidden"></p>
+
+      ${needPick ? `
+        <h3>Кому применяем?</h3>
+        <div class="pick-grid">
+          ${state.players.map((p) => `
+            <button class="btn pick-player" type="button" data-pick="${p.id}">
+              ${esc(p.name)} <span class="award-score">${fmtScore(p.score)}</span>
+            </button>`).join('')}
+        </div>`
+      : (() => {
+          const player = picked;
+          if (q.modifier === 'ask') {
+            return `
+              <div class="award-row ask-row">
+                <span class="award-name">${esc(player.name)} <span class="award-score">${fmtScore(player.score)}</span></span>
+                <span class="award-btns">
+                  <input id="mod-amount" type="text" inputmode="numeric" placeholder="Например: 500 или −200">
+                  <button id="mod-apply" class="btn btn-primary" type="button" disabled>Начислить</button>
+                </span>
+              </div>`;
+          }
+          return `
+            <p class="subtitle">Игрок: <b>${esc(player.name)}</b> — счёт ${fmtScore(player.score)}.</p>
+            ${q.modifier === 'invert' && player.score === 0 ? '<p class="muted">У игрока 0 баллов — эффект не сработает.</p>' : ''}
+            <button id="mod-apply" class="btn btn-primary btn-big" type="button">Применить</button>`;
+        })()}
+    </div>`;
+
+  const showMsg = (text) => {
+    const el = root.querySelector('#mod-msg');
+    el.textContent = text;
+    el.classList.remove('hidden');
+  };
+
+  root.querySelector('#btn-close-question').onclick = () => {
+    update((s) => {
+      pushUndo(s);
+      s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
+      s.question = null;
+      s.screen = 'board';
+    });
+  };
+
+  root.querySelectorAll('[data-pick]').forEach((btn) => {
+    btn.onclick = () => update((s) => { s.question.secretPlayerId = btn.dataset.pick; });
+  });
+
+  const applyBtn = root.querySelector('#mod-apply');
+
+  if (q.modifier === 'ask') {
+    const input = root.querySelector('#mod-amount');
     const sync = () => {
       applyBtn.disabled = input.value.trim() === '' || !Number.isFinite(Number(input.value));
     };
@@ -258,11 +333,40 @@ export function renderQuestion(root, state) {
       if (!Number.isFinite(amount)) return;
       update((s) => {
         pushUndo(s);
-        s.players.find((p) => p.id === row.dataset.ask).score += amount;
+        s.players.find((p) => p.id === picked.id).score += amount;
         s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
         s.question = null;
         s.screen = 'board';
       });
     };
-  });
+    return;
+  }
+
+  applyBtn.onclick = () => {
+    if (q.modifier === 'invert') {
+      if (picked.score === 0) {
+        showMsg('У игрока 0 баллов — эффект не сработал. Выберите другого или закройте карточку.');
+        return;
+      }
+      update((s) => {
+        pushUndo(s);
+        const player = s.players.find((p) => p.id === picked.id);
+        player.score = -player.score;
+        s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
+        s.question = null;
+        s.screen = 'board';
+      });
+      return;
+    }
+    if (q.modifier === 'approx') {
+      update((s) => {
+        pushUndo(s);
+        s.approxPlayers[s.question.r] ??= {};
+        s.approxPlayers[s.question.r][picked.id] = true;
+        s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
+        s.question = null;
+        s.screen = 'board';
+      });
+    }
+  };
 }

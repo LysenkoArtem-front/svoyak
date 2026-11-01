@@ -434,6 +434,25 @@ input:focus-visible, select:focus-visible {
 
 .award-btns { display: flex; gap: 8px; }
 
+/* Метки отложенных эффектов на строке игрока */
+.effect-tag {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(224, 107, 65, 0.15);
+  border: 1px solid rgba(224, 107, 65, 0.5);
+  color: var(--bad);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.effect-tag.effect-approx {
+  background: rgba(241, 212, 154, 0.12);
+  border-color: rgba(241, 212, 154, 0.5);
+  color: var(--accent);
+}
+
 .btn-good {
   background: rgba(65, 107, 102, 0.35);
   border-color: rgba(143, 192, 174, 0.5);
