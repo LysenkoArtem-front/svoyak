@@ -348,6 +348,7 @@ function renderModifierCard(root, state, q) {
   if (q.modifier === 'ask') {
     const input = root.querySelector('#mod-amount');
     const sync = () => {
+      input.value = input.value.replace(/[^\d-]/g, '');
       applyBtn.disabled = input.value.trim() === '' || !Number.isFinite(Number(input.value));
     };
     input.oninput = sync;

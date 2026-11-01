@@ -165,6 +165,7 @@ function renderBets(root, state) {
   const allInBtn = root.querySelector('#btn-all-in');
 
   const sync = () => {
+    input.value = input.value.replace(/[^\d]/g, '');
     confirmBtn.disabled = input.value.trim() === '' || !Number.isFinite(Number(input.value));
   };
   input.oninput = sync;

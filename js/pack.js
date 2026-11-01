@@ -199,7 +199,7 @@ export function renderEditor(root) {
     return `
     <div class="q" data-q="${qi}">
       <div class="q-main">
-        <input class="q-value" type="number" min="1" step="1" value="${esc(q.value)}" title="Номинал">
+        <input class="q-value" type="text" inputmode="numeric" value="${esc(q.value)}" title="Номинал">
         <input class="q-text" placeholder="${textPlaceholder}" value="${esc(q.text)}">
         <input class="q-answer" placeholder="Ответ" value="${esc(q.answer)}">
         <select class="q-modifier" title="Модификатор">${modOptions(q.modifier)}</select>
@@ -345,6 +345,13 @@ function bindEditor(root) {
   });
 
   // Кнопка «📷 Файл»: картинка с устройства → уменьшенный data-URL в поле ссылки.
+  // Номинал: только цифры — текстовое поле не портит длинные числа, как number-инпуты.
+  root.querySelectorAll('.q-value').forEach((inp) => {
+    inp.oninput = () => {
+      inp.value = inp.value.replace(/[^\d]/g, '');
+    };
+  });
+
   // Поле текста: для модификаторной карточки это описание эффекта, а не вопрос.
   root.querySelectorAll('.q-modifier').forEach((sel) => {
     sel.onchange = () => {
