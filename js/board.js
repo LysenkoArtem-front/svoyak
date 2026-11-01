@@ -165,6 +165,38 @@ function renderRealQuestion(root, state, q) {
   const picked = isSecret ? state.players.find((p) => p.id === info.secretPlayerId) ?? null : null;
   const needPick = isSecret && !picked;
 
+  /* Секретный вопрос: сначала выбираем игрока — текст, картинка и ответ скрыты */
+  if (needPick) {
+    root.innerHTML = `
+      <div class="card">
+        <div class="board-head">
+          <h2>Секретный вопрос · «${esc(category.name)}»</h2>
+          <button id="btn-close-question" class="btn btn-ghost" type="button">Закрыть без начисления</button>
+        </div>
+        <p class="notice">Вопрос скрыт — выберите, кто будет отвечать.</p>
+        <h3>Кому отдаём?</h3>
+        <div class="pick-grid">
+          ${state.players.map((p) => `
+            <button class="btn pick-player" type="button" data-pick="${p.id}">
+              ${esc(p.name)} <span class="award-score">${fmtScore(p.score)}</span>
+            </button>`).join('')}
+        </div>
+      </div>`;
+
+    root.querySelector('#btn-close-question').onclick = () => {
+      update((s) => {
+        pushUndo(s);
+        s.played.push(questionKey(s.question.r, s.question.c, s.question.q));
+        s.question = null;
+        s.screen = 'board';
+      });
+    };
+    root.querySelectorAll('[data-pick]').forEach((btn) => {
+      btn.onclick = () => update((s) => { s.question.secretPlayerId = btn.dataset.pick; });
+    });
+    return;
+  }
+
   const who = isSecret && picked ? [picked] : state.players;
   const buzzHtml = renderBuzzList(state.buzzes);
 
@@ -198,18 +230,9 @@ function renderRealQuestion(root, state, q) {
         ${info.answerShown ? `<div class="answer-text">${q.answer ? esc(q.answer) : '<span class="muted">Ответ в паке не задан.</span>'}</div>` : ''}
       </div>
 
-      ${needPick ? `
-        <h3>Кому отдаётся вопрос?</h3>
-        <div class="pick-grid">
-          ${state.players.map((p) => `
-            <button class="btn pick-player" type="button" data-pick="${p.id}">
-              ${esc(p.name)} <span class="award-score">${fmtScore(p.score)}</span>
-            </button>`).join('')}
-        </div>`
-      : `
-        <h3>Кто отвечал?</h3>
-        <div class="award-rows">${standardRows}</div>
-        ${isSecret && picked ? '<button id="btn-repick" class="btn btn-ghost" type="button">Сменить игрока</button>' : ''}`}
+      <h3>Кто отвечал?</h3>
+      <div class="award-rows">${standardRows}</div>
+      ${isSecret && picked ? '<button id="btn-repick" class="btn btn-ghost" type="button">Сменить игрока</button>' : ''}
     </div>`;
 
   root.querySelector('#btn-toggle-answer').onclick = () => {
