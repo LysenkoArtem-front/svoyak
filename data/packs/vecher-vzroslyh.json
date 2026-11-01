@@ -3,80 +3,99 @@
     {
       "categories": [
         {
-          "name": "Наука",
+          "name": "Профессии",
           "questions": [
             {
               "value": 100,
-              "text": "Какой газ человек выдыхает больше всего?",
-              "answer": "Углекислый газ (CO₂)",
+              "text": "Угадайте профессию",
+              "answer": "Врач",
+              "image": "data/images/Профессии/doctor.jpg",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 200,
-              "text": "Сколько планет в Солнечной системе?",
-              "answer": "Восемь",
+              "text": "Угадайте профессию",
+              "answer": "Космонавт",
+              "image": "data/images/Профессии/aeronaftic.jpeg",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 300,
-              "text": "Самое твёрдое природное вещество на Земле?",
-              "answer": "Алмаз",
+              "text": "Угадайте профессию",
+              "answer": "Полицейский",
+              "image": "data/images/Профессии/policeman.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 400,
+              "text": "Угадайте профессию",
+              "answer": "Учитель",
+              "image": "data/images/Профессии/teacher.jpeg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 500,
+              "text": "Угадайте профессию",
+              "answer": "Священник",
+              "image": "data/images/Профессии/priester.jpg",
+              "modifier": "none",
+              "secret": false
+            }
+          ]
+        },
+        {
+          "name": "Коты наглеют",
+          "questions": [
+            {
+              "value": 200,
+              "text": "Кто орёт дикой песней, когда его несут к воде?",
+              "answer": "Кот",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 400,
+              "text": "Чем домашний кот занимается 16 часов в сутки?",
+              "answer": "Спит",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 600,
+              "text": "Сколько раз в сутки ваш кот смотрит на вас с презрением? Оцените на глаз.",
+              "answer": "Любая цифра — засчитывается",
+              "modifier": "ask",
+              "secret": false
+            }
+          ]
+        },
+        {
+          "name": "Народная классика",
+          "questions": [
+            {
+              "value": 200,
+              "text": "Закончите народную мудрость: «Работа не волк — …»",
+              "answer": "…работа это work",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 400,
+              "text": "Какой универсальный ответ подходит абсолютно к любому вопросу?",
+              "answer": "Хуй знает",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 600,
+              "text": "Какое чувство выражает «ни хуя себе»?",
+              "answer": "Крайнее удивление",
               "modifier": "invert",
               "secret": false
-            }
-          ]
-        },
-        {
-          "name": "История",
-          "questions": [
-            {
-              "value": 100,
-              "text": "В каком году началась Вторая мировая война?",
-              "answer": "В 1939 году",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 200,
-              "text": "Кто был первым человеком в космосе?",
-              "answer": "Юрий Гагарин",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 300,
-              "text": "Сколько лет длилась Столетняя война?",
-              "answer": "116 лет",
-              "modifier": "approx",
-              "secret": false
-            }
-          ]
-        },
-        {
-          "name": "География",
-          "questions": [
-            {
-              "value": 100,
-              "text": "Столица Италии?",
-              "answer": "Рим",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 200,
-              "text": "Самый большой океан на Земле?",
-              "answer": "Тихий океан",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 300,
-              "text": "Единственная река, вытекающая из Байкала?",
-              "answer": "Ангара",
-              "modifier": "none",
-              "secret": true
             }
           ]
         },
@@ -111,106 +130,173 @@
     {
       "categories": [
         {
-          "name": "Народная классика",
+          "name": "Анаграммы",
           "questions": [
             {
               "value": 200,
-              "text": "Закончите народную мудрость: «Работа не волк — …»",
-              "answer": "…в лес не убежит",
+              "text": "огипоппмат",
+              "answer": "Гиппопотам",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 400,
-              "text": "Какой универсальный мат-ответ подходит абсолютно к любому вопросу?",
-              "answer": "Хуй знает",
+              "text": "йебнасс",
+              "answer": "Бассейн",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 600,
-              "text": "Какое чувство выражает «ни хуя себе»?",
-              "answer": "Крайнее удивление",
-              "modifier": "invert",
-              "secret": false
-            }
-          ]
-        },
-        {
-          "name": "Бытовое",
-          "questions": [
-            {
-              "value": 200,
-              "text": "Сколько лет в среднем человек проводит во сне?",
-              "answer": "Около 25 лет",
+              "text": "шгаляку",
+              "answer": "Лягушка",
               "modifier": "none",
               "secret": false
             },
             {
-              "value": 400,
-              "text": "Сколько раз в день средний человек берёт в руки телефон?",
-              "answer": "Примерно 100 раз",
-              "modifier": "approx",
+              "value": 800,
+              "text": "мигоарклм",
+              "answer": "Килограмм",
+              "modifier": "none",
               "secret": false
             },
             {
-              "value": 600,
-              "text": "Как называется страх пропустить что-то интересное в интернете?",
-              "answer": "FOMO, «фомо»",
+              "value": 1000,
+              "text": "даьмверу",
+              "answer": "Муравьед",
               "modifier": "none",
               "secret": false
             }
           ]
         },
         {
-          "name": "Коты наглеют",
+          "name": "На логику",
           "questions": [
             {
               "value": 200,
-              "text": "Кто орёт дикой песней, когда его несут к воде?",
-              "answer": "Кот",
+              "text": "Сколько раз цифра 9 встречается в ряду от 0 до 100?",
+              "answer": "20",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 400,
-              "text": "Чем домашний кот занимается 16 часов в сутки?",
-              "answer": "Спит",
+              "text": "На соревнованиях по бегу вам удалось обойти спортсмена, который шел вторым. На каком месте вы финишировали?",
+              "answer": "Вторым",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 600,
-              "text": "Сколько раз в сутки ваш кот смотрит на вас с презрением? Оцените на глаз.",
-              "answer": "Любая цифра — засчитывается",
-              "modifier": "ask",
+              "text": "Старинная китайская загадка. Десять монахов растягивают мешок, а пять монахов влезают внутрь. Что это?",
+              "answer": "Носок",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 800,
+              "text": "",
+              "image": "data/images/Профессии/park_car.jpg",
+              "answer": "87",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1000,
+              "text": "Французское выражение “le roi est a sa fenetre” означает король находится у своего окна. Его говорят, чтобы предупредить мужчину, что с его внешним видом что-то не так. Что с ним?",
+              "answer": "Расстегнута ширинка",
+              "modifier": "none",
               "secret": false
             }
           ]
         },
         {
-          "name": "Школа и армия",
+          "name": "НЕребусы",
           "questions": [
             {
               "value": 200,
-              "text": "Что означает армейское слово «дембель»?",
-              "answer": "Увольнение в запас, демобилизация",
+              "text": "Назовите животное",
+              "answer": "Вомбатон",
+              "image": "data/images/неРебусы/батон.jpg",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 400,
-              "text": "Какая фраза учителя означает «вы обречены»?",
-              "answer": "Это вам на ЕГЭ не пригодится, но знать надо",
+              "text": "Назовите животное",
+              "answer": "Люлякебабочка",
+              "image": "data/images/неРебусы/люля.jpg",
               "modifier": "none",
               "secret": false
             },
             {
               "value": 600,
-              "text": "Какое слово из трёх букв школьники пишут на заборе чаще всего?",
-              "answer": "Хуй",
+              "text": "Назовите животное",
+              "answer": "Подносорог",
+              "image": "data/images/неРебусы/подносорог.jpg",
               "modifier": "none",
-              "secret": true
+              "secret": false
+            },
+            {
+              "value": 800,
+              "text": "Назовите животное",
+              "answer": "Крысало",
+              "image": "data/images/неРебусы/крысало.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1000,
+              "text": "Назовите животное",
+              "answer": "Лисабля",
+              "image": "data/images/неРебусы/лисабля.jpg",
+              "modifier": "none",
+              "secret": false
+            }
+          ]
+        },
+        {
+          "name": "Сок",
+          "questions": [
+            {
+              "value": 100,
+              "text": "Какой сок?",
+              "answer": "Яблочный сок",
+              "image": "data/images/сок/за 100.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 200,
+              "text": "Какой сок?",
+              "answer": "Вишневый сок",
+              "image": "data/images/сок/за 200.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 300,
+              "text": "Какой сок?",
+              "answer": "Апельсиновый сок",
+              "image": "data/images/сок/за 300.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 400,
+              "text": "Какой сок?",
+              "answer": "Ягодный сок",
+              "image": "data/images/сок/за 400.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 500,
+              "text": "Какой сок?",
+              "answer": "Человеческий сок",
+              "image": "data/images/сок/за 500.jpg",
+              "modifier": "none",
+              "secret": false
             }
           ]
         }
@@ -219,108 +305,216 @@
     {
       "categories": [
         {
-          "name": "Показалка",
+          "name": "Вспомни 5",
           "questions": [
             {
-              "value": 300,
-              "text": "Что изображено на картинке?",
-              "answer": "Ёлка",
-              "image": "data/images/elka.png",
+              "value": 400,
+              "text": "Сооружений на детской площадке",
+              "answer": "",
               "modifier": "none",
               "secret": false
             },
             {
-              "value": 600,
-              "text": "А это кто смотрит на вас с презрением?",
-              "answer": "Кот",
-              "image": "data/images/kot.png",
+              "value": 800,
+              "text": "Осенних праздников",
+              "answer": "",
               "modifier": "none",
               "secret": false
             },
             {
-              "value": 900,
-              "text": "Что это за строение?",
-              "answer": "Дом",
-              "image": "data/images/dom.png",
-              "modifier": "invert",
+              "value": 1200,
+              "text": "Светящихся предметов",
+              "answer": "",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1500,
+              "text": "Названий для группового чата с друзьями",
+              "answer": "",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 2000,
+              "text": "Комплиментов бабушке",
+              "answer": "",
+              "modifier": "none",
               "secret": false
             }
           ]
         },
         {
-          "name": "Матерком",
+          "name": "Рандомные вопросы",
           "questions": [
             {
-              "value": 300,
-              "text": "Каким словом на «п» называют полный крах ситуации?",
-              "answer": "Пиздец",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 600,
-              "text": "Что означает глагол «пиздеть» в народной речи?",
-              "answer": "Врать, молоть чепуху",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 900,
-              "text": "Сколько раз человек матерится, собирая шкаф из ИКЕА? Оцените.",
-              "answer": "Любая цифра принимается",
-              "modifier": "ask",
-              "secret": false
-            }
-          ]
-        },
-        {
-          "name": "Пятница",
-          "questions": [
-            {
-              "value": 300,
-              "text": "Как называется состояние, когда тело ещё на работе, а душа уже в баре?",
-              "answer": "Пятничное настроение",
-              "modifier": "none",
-              "secret": false
-            },
-            {
-              "value": 600,
+              "value": 400,
               "text": "",
-              "answer": "Пьёт",
-              "modifier": "invert",
+              "answer": "Квадрат Малевича",
+              "modifier": "none",
+              "image": "data/images/Рандом/Третьяковка.jpg",
               "secret": false
             },
             {
-              "value": 900,
-              "text": "Сколько тостов прозвучит за семейным застольем до первой ссоры? Оцените.",
-              "answer": "Любая цифра — принимается",
-              "modifier": "ask",
+              "value": 800,
+              "text": "",
+              "answer": "Dream works",
+              "image": "data/images/Рандом/Киностудия.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1200,
+              "text": "",
+              "answer": "Затопило",
+              "image": "data/images/Рандом/Индия и Бангладеш.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1500,
+              "text": "",
+              "answer": "Ебанет",
+              "image": "data/images/Рандом/Ебанет или не ебанет.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 2000,
+              "text": "",
+              "answer": "Запрещено умирать",
+              "image": "data/images/Рандом/Норвежский город.jpg",
+              "modifier": "none",
               "secret": false
             }
           ]
         },
         {
-          "name": "Всякое",
+          "name": "Лудка",
           "questions": [
             {
-              "value": 300,
-              "text": "Как народным словом называют часами смотреть в телефон, ничего не делая?",
-              "answer": "Долбоящик",
+              "value": 400,
+              "text": "Красное, черное или зеро",
+              "answer": "Черное",
               "modifier": "none",
               "secret": false
             },
             {
-              "value": 600,
-              "text": "Что молодёжь называет словом «краш»?",
-              "answer": "Человек, в которого влюблён; предмет симпатии",
+              "value": 800,
+              "text": "Красное, черное или зеро",
+              "answer": "Черное",
               "modifier": "none",
-              "secret": true
+              "secret": false
             },
             {
-              "value": 900,
-              "text": "Сколько чипсов съедает человек, сказавший «я только одну»? Оцените.",
-              "answer": "Всю пачку",
-              "modifier": "approx",
+              "value": 1200,
+              "text": "Красное, черное или зеро",
+              "answer": "Красное",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1500,
+              "text": "Красное, черное или зеро",
+              "answer": "Зеро",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 2000,
+              "text": "Красное, черное или зеро",
+              "answer": "Зеро",
+              "modifier": "none",
+              "secret": false
+            }
+          ]
+        },
+        {
+          "name": "Жёпки",
+          "questions": [
+            {
+              "value": 400,
+              "text": "Чья жёпка?",
+              "answer": "Жираф",
+              "image": "data/images/Жепки/Жираф.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 800,
+              "text": "Чья жёпка?",
+              "answer": "Хомячок",
+              "image": "data/images/Жепки/Мышь.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1200,
+              "text": "Чья жёпка?",
+              "answer": "Носорог",
+              "image": "data/images/Жепки/Носорог.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1500,
+              "text": "Чья жёпка?",
+              "answer": "Скунс",
+              "image": "data/images/Жепки/Скунс.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 2000,
+              "text": "Чья жёпка?",
+              "answer": "Корги",
+              "image": "data/images/Жепки/Корги.jpg",
+              "modifier": "none",
+              "secret": false
+            }
+          ]
+        },
+        {
+          "name": "Цитаты Великих",
+          "questions": [
+            {
+              "value": 400,
+              "text": "Вставьте пропуск",
+              "answer": "Ошибся",
+              "image": "data/images/Цитаты/за 100.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 800,
+              "text": "Вставьте пропуск",
+              "answer": "Проигрыватель",
+              "image": "data/images/Цитаты/за 200.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1200,
+              "text": "Вставьте пропуск",
+              "answer": "Зим",
+              "image": "data/images/Цитаты/за 300.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 1500,
+              "text": "Вставьте пропуск",
+              "answer": "Бабки",
+              "image": "data/images/Цитаты/за 400.jpg",
+              "modifier": "none",
+              "secret": false
+            },
+            {
+              "value": 2000,
+              "text": "Вставьте пропуск",
+              "answer": "Свой",
+              "image": "data/images/Цитаты/за 500.jpg",
+              "modifier": "none",
               "secret": false
             }
           ]
