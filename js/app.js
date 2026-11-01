@@ -111,7 +111,7 @@ function renderSetup(root, state) {
     update((s) => {
       if (result.ok) {
         s.pack = result.pack;
-        s.packStatus = { type: 'ok', text: `${sourceLabel}.` };
+        s.packStatus = { type: 'ok', text: `${sourceLabel} ${packSummary(result.pack)}` };
       } else {
         s.packStatus = { type: 'error', text: `${sourceLabel} не подходит — ${result.errors.join('; ')}.` };
       }
@@ -120,9 +120,10 @@ function renderSetup(root, state) {
 
   root.querySelector('#btn-load-example').onclick = async () => {
     try {
-      const res = await fetch('data/example-pack.json');
+      // ?v= — обходим кэш браузера и CDN, чтобы пак всегда грузился свежим.
+      const res = await fetch(`data/example-pack.json?v=${Date.now()}`);
       if (!res.ok) throw new Error(`файл недоступен (код ${res.status})`);
-      applyPack(await res.json(), 'Загружен пример');
+      applyPack(await res.json(), 'Загружен пример.');
     } catch (e) {
       update((s) => { s.packStatus = { type: 'error', text: `Не удалось загрузить пример: ${e.message}.` }; });
     }
